@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Development</title>
+    <style type="text/css">
+        #canvas{
+            width: 100%;
+            border: 4px solid black;
+            background-color: black;
+        }
+        button{
+            width: 80px;
+            height: 50px;
+            margin-bottom: 5px;
+            user-select:none;
+        }
+        body{
+            background-color: #c3c3c3;
+        }
+        h1{
+            color: #4c6ebb;
+        }
+    </style>
+</head>
+<body>
+    <h1 align="center">My Jumper Game</h1>
+    <p align="center">A fun flappy-bird like game</p>
+
+    <canvas id="canvas" height="400" width="600">
+        Your browser does not support HTML5 canvas tag.
+    </canvas>
+
+    <br><br>
+    <div align="center">
+        <button id="up">Up</button><br>
+        <button id="left">Left</button>
+        <button id="down">Down</button>
+        <button id="right">Right</button>
+    </div>
+
+    <script type="text/javascript">
+        //Script by Junior D'Coder!!!!
+        window.onload=function(){    
+            //Handling event of the canvas
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        var x=250;
+        var y=150;
+
+        var coinx = Math.random()*(600-50);
+        var coiny = Math.random()*(400-50);
+        let right = document.getElementById('right');
+        let left = document.getElementById('left');
+        let up = document.getElementById('up');
+        let down = document.getElementById('down');
+
+        up.onmousedown = function(){
+            dir=4;
+        }
+        down.onmousedown = function(){
+            dir=3;
+        }
+        left.onmousedown = function(){
+            dir=2;
+        }
+        right.onmousedown = function(){
+            dir=1;
+        }
+
+        up.ontouchstart = function(){
+            dir=4;
+        }
+        down.ontouchstart = function(){
+            dir=3;
+        }
+        left.ontouchstart = function(){
+            dir=2;
+        }
+        right.ontouchstart = function(){
+            dir=1;
+        }
+
+        up.onmouseup = function(){
+            dir=0;
+        }
+        down.onmouseup = function(){
+            dir=0;
+        }
+        left.onmouseup = function(){
+            dir=0;
+        }
+        right.onmouseup = function(){
+            dir=0;
+        }
+
+        up.ontouchend = function(){
+            dir=0;
+        }
+        down.ontouchend = function(){
+            dir=0;
+        }
+        left.ontouchend = function(){
+            dir=0;
+        }
+        right.ontouchend = function(){
+            dir=0;
+        }
+
+        var t=Date.now();
+        let speed=600;
+        let dir=0;
+        let score=0;
+
+        function draw(){
+            var timePassed = (Date.now()-t)/1000;
+            t=Date.now();
+            var fps=Math.round(1/timePassed);
+            context.clearRect(0,0,600,400);
+
+            context.font='40px Arial';
+            context.fillStyle="white";
+            context.fillText("Score "+score,20,30);
+
+            context.beginPath();
+            context.rect(x,y,100,100);
+            context.fillStyle = "red";
+            context.fill();
+
+            context.beginPath();
+            context.rect(coinx,coiny,50,50);
+            context.fillStyle = "#e3c228";
+            context.fill();
+            if(dir==1){
+                if(x+100<600){
+                    x+=(speed*timePassed);
+                }
+            }
+            else if(dir==2){
+                if(x>0){
+                    x-=(speed*timePassed);
+                }
+            }
+            else if(dir==3){
+                if(y+100<400){
+                    y+=(speed*timePassed);
+                }
+            }
+            else if(dir==4){
+                if(y>0){
+                    y-=(speed*timePassed);
+                }
+            }
+
+            if(coinx<=x+100 && x<=coinx+50 && coiny<=y+100 && y<=coiny+50){
+                score++;
+                coinx = Math.random()*(600-50);
+                coiny = Math.random()*(400-50);
+            }
+
+            window.requestAnimationFrame(draw);
+        }
+
+        draw();
+
+        }
+    </script>
+
+</body>
+</html>
